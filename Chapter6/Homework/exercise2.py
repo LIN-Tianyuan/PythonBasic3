@@ -1,8 +1,6 @@
-number = [32, 5, 12, 8, 3, 75, 2, 15]
-number_a = 0
-for number_b in range(len(number)):
-    for number_c in range(len(number)):
-        if number[number_c] > number[number_a]:
-            number_a = number_a + 1
-            result = number[number_c]
-            print(result)
+number_list = [32, 5, 12, 8, 3, 75, 2, 15]
+max_num = number_list[0]
+for number in number_list:
+    if max_num <= number:
+        max_num = number
+print("Le plus grand élément de cette liste est la valeur: " + str(max_num) + ".")
