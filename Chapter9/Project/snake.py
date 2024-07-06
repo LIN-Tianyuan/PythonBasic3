@@ -1,6 +1,7 @@
 import pygame
 import sys
 import random
+import time
 
 pygame.init()
 
@@ -8,6 +9,7 @@ black = (0, 0, 0)
 green = (50, 155, 50)
 red = (255, 0, 0)
 white = (255, 255, 255)
+pink = (255, 192, 203)
 
 window_x = 720
 window_y = 480
@@ -32,6 +34,20 @@ def show_score(font, size, color):
     score_text = score_font.render('Score: ' + str(score), True, color)
     score_rect = score_text.get_rect()
     game_window.blit(score_text, score_rect)
+
+
+def game_over(font, size, color):
+    over_font = pygame.font.SysFont(font, size)
+    over_text = over_font.render('Your score is : ' + str(score), True, color)
+    over_rect = over_text.get_rect()
+    over_rect.center = (window_x / 2, window_y / 2)
+    game_window.blit(over_text, over_rect)
+    pygame.display.flip()
+    # Après 2 secondes, nous quitterons le programme
+    time.sleep(2)
+    pygame.quit()
+    sys.exit()
+
 
 
 # Initialisation de la fenêtre de jeu
@@ -83,12 +99,17 @@ while True:
     else:
         snake_body.pop()
 
-    game_window.fill(black)
-
+    game_window.fill(pink)
 
     for pos in snake_body:
         pygame.draw.rect(game_window, green, pygame.Rect(pos[0], pos[1], 10, 10))
     pygame.draw.rect(game_window, red, pygame.Rect(fruit_position[0], fruit_position[1], 10, 10))
+
+    # Toucher le corps du serpent
+    for block in snake_body[1: ]:
+        if snake_position[0] == block[0] and snake_position[1] == block[1]:
+            game_over('Arial', 50, red)
+
 
     show_score('Arial', 20, white)
     pygame.display.flip()
